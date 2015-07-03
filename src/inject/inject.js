@@ -3,34 +3,52 @@ chrome.extension.sendMessage({}, function(response) {
 	if (document.readyState === "complete") {
 		clearInterval(readyStateCheckInterval);
     isFreeAgent();
+    // isXeroPartner();
 	}
 	}, 10);
 });
 
 var colors = {
-  freeagent: "rgba(199, 251, 199, 0.32)"
+  freeagent: "#7cc04a",
+  xero_partner: "#FFA500"
 };
-
-function getAllElementsWithAttribute(attribute){
-  var matchingElements = [];
-  var allElements = document.getElementsByTagName('*');
-  for (var i = 0, n = allElements.length; i < n; i++)
-  {
-    if (allElements[i].getAttribute(attribute) !== null)
-    {
-      // Element exists with attribute. Add to array.
-      matchingElements.push(allElements[i]);
-    }
-  }
-  console.log('matching elements', matchingElements);
-  return matchingElements;
-}
 
 function isFreeAgent(){
   var allText = document.body.innerText;
   if(allText.indexOf("PLATFORM") > 0 && allText.indexOf("freeagent") > 0)
     {
-      document.querySelectorAll(".main-container")[0].style.backgroundColor = colors.freeagent;
-      document.querySelectorAll(".page")[0].style.backgroundColor = colors.freeagent;
+      console.log('user is FREEAGENT setting background color', colors)
+      var container = document.querySelectorAll(".main-container")[0]
+      container.style.backgroundColor = "";
+      container.style.backgroundColor = colors.freeagent;
+      // use this to color the entire background
+      // document.querySelectorAll(".page")[0].style.backgroundColor = colors.freeagent; 
     }
+    else{isXeroPartner()}
   }
+
+function isXeroPartner(){
+  var allText = document.body.innerText;
+  if(
+      allText.indexOf("ADDED-A-PARTNER-COMPANY") > 0 || 
+      allText.indexOf("ADDED-PARTNER-BILLING-DETAILS") > 0 || 
+      allText.indexOf("US Partners") > 0 ||
+      allText.indexOf("billable partners") > 0 ||
+      allText.indexOf("cancelled partners") > 0 ||
+      allText.indexOf("Partners with clients") > 0 ||
+      allText.indexOf("Partner Case Study") > 0 ||
+      allText.indexOf("Potential Partners") > 0 
+    )
+    { 
+      console.log('user is PARTNER setting background color')
+      var container = document.querySelectorAll(".main-container")[0]
+      container.style.backgroundColor = "";
+      container.style.backgroundColor = colors.xero_partner;
+      // use this to color the entire background
+      // document.querySelectorAll(".page")[0].style.backgroundColor = colors.xero_partner; 
+    }
+    // else{
+    //   document.querySelectorAll(".main-container")[0].style.backgroundColor = "";
+    // }
+  }
+
