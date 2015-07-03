@@ -2,16 +2,14 @@ chrome.extension.sendMessage({}, function(response) {
 	var readyStateCheckInterval = setInterval(function() {
 	if (document.readyState === "complete") {
 		clearInterval(readyStateCheckInterval);
-
-		// ----------------------------------------------------------
-		// This part of the script triggers when page is done loading
-		console.log("Hello. This message was sent from scripts/inject.js");
-    checkPlatform();
-		// ----------------------------------------------------------
+    isFreeAgent();
 	}
 	}, 10);
 });
 
+var colors = {
+  freeagent: "rgba(199, 251, 199, 0.32)"
+};
 
 function getAllElementsWithAttribute(attribute){
   var matchingElements = [];
@@ -29,18 +27,10 @@ function getAllElementsWithAttribute(attribute){
 }
 
 function isFreeAgent(){
-  var data  = document.querySelectorAll("[data-tooltip-content]");
-  var arr = [];
-  for (var i = 0, n = data.length; i < n; i++)
-  {
-    console.log('data is:', data[i])
-    if(data[i].dataset.tooltipContent == "platform: freeagent")
-      {
-        arr.push(data[i])
-      }
+  var allText = document.body.innerText;
+  if(allText.indexOf("PLATFORM") > 0 && allText.indexOf("freeagent") > 0)
+    {
+      document.querySelectorAll(".main-container")[0].style.backgroundColor = colors.freeagent;
+      document.querySelectorAll(".page")[0].style.backgroundColor = colors.freeagent;
     }
-    console.log('array:', arr);
-    if(arr.length > 0){
-      document.querySelectorAll(".page")[0].style.backgroundColor = "rgba(88, 243, 88, 0.32)";
-      document.querySelectorAll(".page")[0].style.margin = 'none';
   }
