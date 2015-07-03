@@ -10,29 +10,13 @@
     "128": "icons/icon128.png"
   },
   "default_locale": "en",
-  "background": {
-    "scripts": [
-      "src/bg/background.js"
-    ],
-    "persistent": true
-  },
   "options_page": "src/options_custom/index.html",
   "content_scripts": [
     {
-      "matches": [
-        "https://www.google.com/*"
-      ],
-      "css": [
-        "src/inject/inject.css"
-      ]
-    },
-    {
-      "matches": [
-        "https://www.google.com/*"
-      ],
-      "js": [
-        "src/inject/inject.js"
-      ]
+      "matches": ["https://app.intercom.io/a/apps/j8nukb6m/*"],
+      "css": ["src/inject/inject.css"],
+      "js": ["src/inject/inject.js"],
+      "run_at": "document_end"
     }
   ]
 }
